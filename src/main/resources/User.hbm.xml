@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 5.3//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-5.3.dtd">
+
+<hibernate-mapping>
+    <class name = "com.ideas2it.dvdstore.model.User" table = "USER">
+
+        <id name = "id" column = "ID" type = "integer">
+            <generator class = "increment"/>
+        </id>
+
+        <property name = "name" column = "NAME" type = "string"/>
+        <property name = "password" column = "PASSWORD" type = "string"/>
+        <property name="role" column="ROLE">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">com.ideas2it.dvdstore.common.enums.UserRole</param>
+                <param name="useNamed">true</param>
+            </type>       
+        </property>
+    </class>
+</hibernate-mapping>

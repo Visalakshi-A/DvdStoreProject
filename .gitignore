@@ -1,0 +1,8 @@
+#Ignore all class files
+*.class
+
+#Ignore library files
+lib/
+
+#Ignore all files in WEB-INF/classes
+target/

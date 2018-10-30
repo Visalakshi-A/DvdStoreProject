@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 5.3//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-5.3.dtd">
+
+<hibernate-mapping>
+    <class name = "com.ideas2it.dvdstore.model.Order" table = "ORDERS">
+
+        <id name = "id" column = "ID" type = "integer">
+            <generator class = "increment"/>
+        </id>
+
+        <property name = "customerId" column = "CUSTOMER_ID" type = "integer"/>
+        <many-to-one name = "address" cascade = "none" class = "com.ideas2it.dvdstore.model.Address" 
+                column = "ADDRESS_ID" fetch = "select" lazy = "false"/>
+        <many-to-one name = "dvd" cascade = "none" class = "com.ideas2it.dvdstore.model.DVD" 
+                column = "DVD_ID" fetch = "select" lazy = "false"/>
+        <property name = "orderDate" column = "ORDER_DATE" type = "date"/>
+        <property name = "status" column = "STATUS" type = "boolean"/>
+
+    </class>
+</hibernate-mapping>

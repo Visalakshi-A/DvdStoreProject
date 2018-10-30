@@ -1,0 +1,32 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 5.3//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-5.3.dtd">
+
+<hibernate-mapping>
+    <class name = "com.ideas2it.dvdstore.model.Customer" table = "CUSTOMER">
+
+        <id name = "id" column = "ID" type = "integer">
+            <generator class = "increment"/>
+        </id>
+
+        <property name = "name" column = "NAME" type = "string"/>
+        <property name = "email" column = "EMAIL" type = "string"/>
+        <property name = "contactNumber" column = "CONTACT_NUMBER" type = "string"/>
+        <property name = "status" column = "STATUS" type = "boolean"/>
+
+        <bag name = "address" table = "ADDRESS" cascade = "save-update" fetch = "select" lazy = "false">
+            <key column = "CUSTOMER_ID"/>
+            <one-to-many class = "com.ideas2it.dvdstore.model.Address"/>
+        </bag>
+
+        <bag name = "orders" table = "ORDERS" cascade = "save-update" fetch = "select" lazy = "false">
+            <key column = "CUSTOMER_ID"/>
+            <one-to-many class = "com.ideas2it.dvdstore.model.Order"/>
+        </bag>
+
+        <many-to-one name = "user" cascade = "none" class = "com.ideas2it.dvdstore.model.User" 
+                column = "USER_ID" fetch = "select" lazy = "false"/>
+
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 5.3//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-5.3.dtd">
+
+<hibernate-mapping>
+    <class name = "com.ideas2it.dvdstore.model.DVD" table = "DVD">
+
+        <id name = "id" column = "ID" type = "int">
+            <generator class = "increment"/>
+        </id>
+
+        <property name = "name" column = "NAME" type = "string"/>
+        <property name = "language" column = "LANGUAGE" type = "string"/>
+        <property name = "type" column = "TYPE" type = "string"/>
+        <property name = "quantity" column = "QUANTITY" type = "int"/>
+        <property name = "price" column = "PRICE" type = "double"/>
+        <property name = "rating" column = "RATING" type = "double"/>
+        <property name = "releaseDate" column = "RELEASE_DATE" type = "date"/>
+        <property name = "status" column = "STATUS" type = "boolean"/>	
+
+        <bag name = "categories" table = "DVD_CATEGORY" cascade = "save-update" fetch = "select" lazy = "false">
+            <key column = "DVD_ID"/>
+            <many-to-many column = "CATEGORY_ID" class = "com.ideas2it.dvdstore.model.Category">
+                <filter name = "categoryStatusFilter" condition = "status = :status"/>
+            </many-to-many>
+        </bag>
+        
+    </class>
+
+    <filter-def name = "categoryStatusFilter">
+        <filter-param name = "status" type = "boolean"/>
+    </filter-def>
+
+</hibernate-mapping>

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.ideas2it.dvdstore.common.Constants;
 import com.ideas2it.dvdstore.dao.CategoryDao;
-import com.ideas2it.dvdstore.dao.impl.CategoryDaoImpl;
 import com.ideas2it.dvdstore.exception.DVDException;
 import com.ideas2it.dvdstore.model.Category;
 import com.ideas2it.dvdstore.model.DVD;
@@ -19,7 +18,6 @@ import com.ideas2it.dvdstore.service.CategoryService;
  *
  * @see com.ideas2it.dvdstore.dao.Constants
  * @see com.ideas2it.dvdstore.dao.CategoryDao
- * @see com.ideas2it.dvdstore.dao.impl.CategoryDaoImpl
  * @see com.ideas2it.dvdstore.exception.DVDException
  * @see com.ideas2it.dvdstore.model.Category
  * @see com.ideas2it.dvdstore.model.DVD
@@ -27,7 +25,11 @@ import com.ideas2it.dvdstore.service.CategoryService;
  */
 public class CategoryServiceImpl implements CategoryService{
 
-    private CategoryDao categoryDao = new CategoryDaoImpl();
+    private static CategoryDao categoryDao;
+
+    public void setCategoryDao(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
 
     /** @{inheritDoc} */
     public Boolean checkAlreadyExists(String category) throws DVDException {

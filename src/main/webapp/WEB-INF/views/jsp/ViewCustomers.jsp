@@ -6,8 +6,8 @@
     <body>
         <form action = "/DvdStore" method = "get">
             <input type = "submit" value = "Back"/>
-        </form><br/><br/>
-        <h2 align = "center"> Customers </h2>
+        </form><br/>
+        <h2 align = "center"> Customers </h2><br/>
         <table width = 90% align = center>
             <tr>
                 <th> Id </th>

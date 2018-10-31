@@ -1,6 +1,5 @@
 package com.ideas2it.dvdstore.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,13 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ideas2it.dvdstore.logging.Logger;
 import com.ideas2it.dvdstore.common.Constants;
 import com.ideas2it.dvdstore.exception.DVDException;
 import com.ideas2it.dvdstore.model.Category;
 import com.ideas2it.dvdstore.model.DVD;
 import com.ideas2it.dvdstore.service.CategoryService;
-import com.ideas2it.dvdstore.service.impl.CategoryServiceImpl;
 
 /**
  * Performs all operations of getting input from the user to
@@ -29,11 +26,12 @@ import com.ideas2it.dvdstore.service.impl.CategoryServiceImpl;
  * @see com.ideas2it.dvdstore.model.Category
  * @see com.ideas2it.dvdstore.model.DVD
  * @see com.ideas2it.dvdstore.service.CategoryService
- * @see com.ideas2it.dvdstore.service.impl.CategoryServiceImpl
  */
 @Controller
 @RequestMapping("category")
 public class CategoryController {
+
+    private static CategoryService categoryService;
 
     private static final String PAGE_HOME = "AdminHome";
 
@@ -43,7 +41,9 @@ public class CategoryController {
 
     private static final String URL_RESTORE_DISPLAY = "restore-display";
 
-    private CategoryService categoryService = new CategoryServiceImpl();
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     /**
      * To redirect to the Home page.
@@ -95,15 +95,15 @@ public class CategoryController {
     @GetMapping("display")
     private ModelAndView display() {
 
-        List<Category> categories = new ArrayList<Category>();
+        ModelAndView model = new ModelAndView(PAGE_VIEW_CATEGORIES);
         try {
-            categories = categoryService.getCategories(Boolean.TRUE);
+            model.addObject(Constants.LABEL_CATEGORIES,
+                categoryService.getCategories(Boolean.TRUE));
         } catch (DVDException e) {
-            return new ModelAndView(PAGE_HOME, Constants.LABEL_MESSAGE,
-                                                                e.getMessage());
+            model = new ModelAndView(PAGE_HOME,
+                Constants.LABEL_MESSAGE, e.getMessage());
         }
-        return new ModelAndView(PAGE_VIEW_CATEGORIES,
-            Constants.LABEL_CATEGORIES, categories);
+        return model;
     }
 
     /**

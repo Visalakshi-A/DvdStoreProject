@@ -22,22 +22,29 @@ import com.ideas2it.dvdstore.model.User;
 import com.ideas2it.dvdstore.session.DVDStoreSessionFactory;
 
 /**
- * Performs all the authentication process and inserting new users to the Store.
+ * Performs retrieve and insert User on the DVD Store.
  *
  * @author Visalakshi
  *
+ * @see com.ideas2it.dvdstore.common.enums.UserRole
+ * @see com.ideas2it.dvdstore.dao.UserDao
+ * @see com.ideas2it.dvdstore.exception.DVDException
+ * @see com.ideas2it.dvdstore.logging.Logger
  * @see com.ideas2it.dvdstore.model.User
+ * @see com.ideas2it.dvdstore.session.DVDStoreSessionFactory
  */
 public class UserDaoImpl implements UserDao {
 
     private static final String HQL_GET_USER =
         "FROM User WHERE NAME = :name AND PASSWORD = SHA2(:password,224)";
 
+    private static final String ENCRYPTION = "SHA-224";
+
     private DVDStoreSessionFactory factory =
                                            DVDStoreSessionFactory.getInstance();
 
     /** @{inheritDoc} */
-    public User login(User user) throws DVDException {
+    public User retrieveUser(User user) throws DVDException {
 
         Session session = null;
         try {
@@ -56,7 +63,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     /** @{inheritDoc} */
-    public User signUp(User user) throws DVDException {
+    public User insertUser(User user) throws DVDException {
 
         Session session = null;
         Transaction transaction = null;
@@ -71,8 +78,8 @@ public class UserDaoImpl implements UserDao {
 
             if (null == existingUser) {
 
-                MessageDigest sha224 = MessageDigest.getInstance("SHA-224");
-                byte[] hash = sha224.digest(user.getPassword().getBytes());
+                MessageDigest encrypt = MessageDigest.getInstance(ENCRYPTION);
+                byte[] hash = encrypt.digest(user.getPassword().getBytes());
                 String hashText = new BigInteger(1, hash).toString(16);
                 while (hashText.length() < 32) {
                     hashText = "0" + hashText;

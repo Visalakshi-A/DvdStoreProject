@@ -7,7 +7,6 @@ import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
 import com.ideas2it.dvdstore.common.Constants;
-import com.ideas2it.dvdstore.model.DVD;
 
 /**
  * Contains all the date related functions used while 
@@ -17,7 +16,6 @@ import com.ideas2it.dvdstore.model.DVD;
  * @author Visalakshi
  *
  * @see com.ideas2it.dvdstore.common.Constants
- * @see com.ideas2it.dvdstore.model.DVD
  */
 public class DateUtils {
 

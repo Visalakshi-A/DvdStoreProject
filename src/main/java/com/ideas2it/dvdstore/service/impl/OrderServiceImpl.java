@@ -5,13 +5,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.ideas2it.dvdstore.dao.OrderDao;
-import com.ideas2it.dvdstore.dao.impl.OrderDaoImpl;
 import com.ideas2it.dvdstore.exception.DVDException;
 import com.ideas2it.dvdstore.model.Address;
 import com.ideas2it.dvdstore.model.DVD;
 import com.ideas2it.dvdstore.model.Order;
 import com.ideas2it.dvdstore.service.DVDService;
-import com.ideas2it.dvdstore.service.impl.DVDServiceImpl;
 import com.ideas2it.dvdstore.service.OrderService;
 
 /**
@@ -21,20 +19,25 @@ import com.ideas2it.dvdstore.service.OrderService;
  * @author Visalakshi
  *
  * @see com.ideas2it.dvdstore.dao.OrderDao
- * @see com.ideas2it.dvdstore.dao.impl.OrderDaoImpl
  * @see com.ideas2it.dvdstore.exception.DVDException
  * @see com.ideas2it.dvdstore.model.Address
  * @see com.ideas2it.dvdstore.model.DVD
  * @see com.ideas2it.dvdstore.model.Order
  * @see com.ideas2it.dvdstore.service.DVDService
- * @see com.ideas2it.dvdstore.service.impl.DVDServiceImpl
  * @see com.ideas2it.dvdstore.service.OrderService
  */
 public class OrderServiceImpl implements OrderService {
 
-    private OrderDao orderDao = new OrderDaoImpl();
+    private static OrderDao orderDao;
+    private static DVDService dvdService;
 
-    private DVDService dvdService = new DVDServiceImpl();
+    public void setOrderDao(OrderDao orderDao) {
+        this.orderDao = orderDao;
+    }
+
+    public void setDvdService(DVDService dvdService) {
+        this.dvdService = dvdService;
+    }
 
     /** @{inheritDoc} */
     public Boolean purchaseDvds(List<DVD> dvds, Integer customerId,

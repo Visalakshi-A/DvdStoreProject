@@ -4,10 +4,11 @@ import com.ideas2it.dvdstore.exception.DVDException;
 import com.ideas2it.dvdstore.model.User;
 
 /**
- * Performs all the authentication process and inserting new users to the Store.
+ * Performs retrieve and insert User on the DVD Store.
  *
  * @author Visalakshi
  *
+ * @see com.ideas2it.dvdstore.exception.DVDException
  * @see com.ideas2it.dvdstore.model.User
  */
 public interface UserDao {
@@ -23,7 +24,7 @@ public interface UserDao {
      * @return user
      *         null if login failed else the user object from the Store.
      */
-    User login(User user) throws DVDException;
+    User retrieveUser(User user) throws DVDException;
 
     /**
      * Checks if the user object already exists and returns null if already
@@ -35,5 +36,5 @@ public interface UserDao {
      * @return user
      *         User object if successfully inserted else returns null.
      */
-    User signUp(User user) throws DVDException;
+    User insertUser(User user) throws DVDException;
 }

@@ -21,13 +21,12 @@ import com.ideas2it.dvdstore.model.Category;
 import com.ideas2it.dvdstore.model.Customer;
 import com.ideas2it.dvdstore.model.DVD;
 import com.ideas2it.dvdstore.model.User;
-import com.ideas2it.dvdstore.logging.Logger;
 import com.ideas2it.dvdstore.service.CustomerService;
-import com.ideas2it.dvdstore.service.impl.CustomerServiceImpl;
 
 /**
  * Performs all operations of getting input from the user to
  * perform all the Customer related operations and displaying the result.
+ * Displays all customers for Admin.
  *
  * @author Visalakshi
  *
@@ -37,13 +36,14 @@ import com.ideas2it.dvdstore.service.impl.CustomerServiceImpl;
  * @see com.ideas2it.dvdstore.model.Category
  * @see com.ideas2it.dvdstore.model.Customer
  * @see com.ideas2it.dvdstore.model.DVD
- * @see com.ideas2it.dvdstore.logging.Logger
+ * @see com.ideas2it.dvdstore.model.User
  * @see com.ideas2it.dvdstore.service.CustomerService
- * @see com.ideas2it.dvdstore.service.impl.CustomerServiceImpl
  */
 @Controller
 @RequestMapping("customer")
 public class CustomerController {
+
+    private static CustomerService customerService;
 
     private static final String PAGE_ADDRESS_FORM = "AddressForm";
 
@@ -65,7 +65,9 @@ public class CustomerController {
 
     private static final String URL_PROFILE = "profile";
 
-    private CustomerService customerService = new CustomerServiceImpl();
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     /**
      * Redirects to Update Details form.

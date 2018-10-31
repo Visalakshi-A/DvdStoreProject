@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.ideas2it.dvdstore.utils.DateUtils" %>
 <html>
     <head>
         <title> DVDS </title>
@@ -61,7 +62,7 @@
                 <th>Released</th>
                 <th>Category</th>
             </tr>
-            <%@ page import = "com.ideas2it.dvdstore.utils.DateUtils" %>
+            
             <c:forEach var = "dvd" items = "${dvds}">
                 <tr align = "center">
                     <td>${dvd.name}</td>
@@ -70,7 +71,7 @@
                     <td>${dvd.quantity}</td>
                     <td>${dvd.price}</td>
                     <td>${dvd.rating}</td>
-                    <td>${DateUtils.getPeriodDiff(dvd.releaseDate)}</td>
+                    <td>${dvd.releaseDate}</td>
                     <td>${dvd.categories}</td>
 
                     <form method = "post">

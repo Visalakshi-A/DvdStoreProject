@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ideas2it.dvdstore.common.Constants;
 import com.ideas2it.dvdstore.dao.CustomerDao;
-import com.ideas2it.dvdstore.dao.impl.CustomerDaoImpl;
 import com.ideas2it.dvdstore.exception.DVDException;
 import com.ideas2it.dvdstore.model.Address;
 import com.ideas2it.dvdstore.model.Category;
@@ -12,12 +11,9 @@ import com.ideas2it.dvdstore.model.Customer;
 import com.ideas2it.dvdstore.model.DVD;
 import com.ideas2it.dvdstore.model.User;
 import com.ideas2it.dvdstore.service.CategoryService;
-import com.ideas2it.dvdstore.service.CustomerService;   
-import com.ideas2it.dvdstore.service.OrderService;
+import com.ideas2it.dvdstore.service.CustomerService;
 import com.ideas2it.dvdstore.service.DVDService;
-import com.ideas2it.dvdstore.service.impl.CategoryServiceImpl;
-import com.ideas2it.dvdstore.service.impl.OrderServiceImpl;
-import com.ideas2it.dvdstore.service.impl.DVDServiceImpl;
+import com.ideas2it.dvdstore.service.OrderService;
 
 /**
  * Modifies the data from the Controller layer and sends it to the DAO layer
@@ -27,7 +23,6 @@ import com.ideas2it.dvdstore.service.impl.DVDServiceImpl;
  *
  * @see com.ideas2it.dvdstore.common.Constants
  * @see com.ideas2it.dvdstore.dao.CustomerDao
- * @see com.ideas2it.dvdstore.dao.impl.CustomerDaoImpl
  * @see com.ideas2it.dvdstore.exception.DVDException
  * @see com.ideas2it.dvdstore.model.Address
  * @see com.ideas2it.dvdstore.model.Category
@@ -36,15 +31,30 @@ import com.ideas2it.dvdstore.service.impl.DVDServiceImpl;
  * @see com.ideas2it.dvdstore.service.CategoryService
  * @see com.ideas2it.dvdstore.service.CustomerService
  * @see com.ideas2it.dvdstore.service.DVDService
- * @see com.ideas2it.dvdstore.service.impl.CategoryService
- * @see com.ideas2it.dvdstore.service.impl.DVDService
+ * @see com.ideas2it.dvdstore.service.OrderService
  */
 public class CustomerServiceImpl implements CustomerService {
 
-    CategoryService categoryService = new CategoryServiceImpl();
-    OrderService orderService = new OrderServiceImpl();
-    DVDService dvdService = new DVDServiceImpl();
-    CustomerDao customerDao = new CustomerDaoImpl();
+    private static CustomerDao customerDao;
+    private static DVDService dvdService;
+    private static CategoryService categoryService;
+    private static OrderService orderService;
+
+    public void setCustomerDao(CustomerDao customerDao) {
+        this.customerDao = customerDao;
+    }
+
+    public void setDvdService(DVDService dvdService) {
+        this.dvdService = dvdService;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     /** @{inheritDoc} */
     public Boolean registerCustomer(Customer customer) throws DVDException {

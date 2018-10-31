@@ -50,7 +50,7 @@
                     <td>${dvd.quantity}</td>
                     <td>${dvd.price}</td>
                     <td>${dvd.rating}</td>
-                    <td>${DateUtils.getPeriodDiff(dvd.releaseDate)}</td>
+                    <td>${dvd.releaseDate}</td>
                     <td>${dvd.categories}</td>
                 </tr>
             </c:forEach>

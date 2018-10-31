@@ -1,7 +1,6 @@
 package com.ideas2it.dvdstore.controller;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,6 @@ import com.ideas2it.dvdstore.logging.Logger;
 import com.ideas2it.dvdstore.model.Category;
 import com.ideas2it.dvdstore.model.DVD;
 import com.ideas2it.dvdstore.service.DVDService;
-import com.ideas2it.dvdstore.service.impl.DVDServiceImpl;
 
 /**
  * Performs all operations of getting input from the user to
@@ -33,8 +31,6 @@ import com.ideas2it.dvdstore.service.impl.DVDServiceImpl;
  * @see com.ideas2it.dvdstore.model.Category
  * @see com.ideas2it.dvdstore.model.DVD
  * @see com.ideas2it.dvdstore.service.DVDService
- * @see com.ideas2it.dvdstore.service.impl.DVDServiceImpl
- * @see com.ideas2it.dvdstore.utils.DateUtils
  */
 @Controller
 @RequestMapping("dvd")
@@ -56,8 +52,6 @@ public class DVDController {
         this.dvdService = dvdService;
     }
 
-    //private DVDService dvdService = new DVDServiceImpl();
-
     /**
      * Redirects to the Insert Dvd form page after creating a new DVD object.
      *
@@ -72,7 +66,7 @@ public class DVDController {
             model.addObject(Constants.LABEL_CATEGORIES,
                 dvdService.getCategories(Boolean.TRUE));
         } catch (DVDException e) {
-            Logger.error(Constants.LOG_RETRIEVE_CATEGORIES_EXCEPTION);
+            model.addObject(Constants.LABEL_MESSAGE, e.getMessage());
         }
         return model;
     }
@@ -123,14 +117,15 @@ public class DVDController {
     @GetMapping("display")
     private ModelAndView display() {
 
-        List<DVD> dvds = new ArrayList<DVD>();
+        ModelAndView model = new ModelAndView(PAGE_VIEW_DVDS);
         try {
-            dvds = dvdService.getAllDvds(Boolean.TRUE);
+            model.addObject(Constants.LABEL_DVDS,
+                dvdService.getAllDvds(Boolean.TRUE));
         } catch (DVDException e) {
-            return new ModelAndView(PAGE_HOME,
+            model = new ModelAndView(PAGE_HOME,
                 Constants.LABEL_MESSAGE, e.getMessage());
         }
-        return new ModelAndView(PAGE_VIEW_DVDS, Constants.LABEL_DVDS, dvds);
+        return model;
     }
 
     /**
@@ -168,15 +163,16 @@ public class DVDController {
     @GetMapping("display-dvds-by-category")
     private ModelAndView getDvdsByCategory(HttpServletRequest request) {
 
-    List<DVD> dvds = new ArrayList<DVD>();
+        ModelAndView model = new ModelAndView(PAGE_VIEW_DVDS);
         try {
-            dvds = dvdService.getDvdsByCategoryId(Integer.
-                parseInt(request.getParameter(Constants.LABEL_CATEGORY)));
+            model.addObject(Constants.LABEL_DVDS,
+                dvdService.getDvdsByCategoryId(Integer.parseInt(request.
+                getParameter(Constants.LABEL_CATEGORY))));
         } catch (DVDException e) {
-            return new ModelAndView(PAGE_HOME, 
+            model = new ModelAndView(PAGE_HOME, 
                 Constants.LABEL_MESSAGE, e.getMessage());
         }
-        return new ModelAndView(PAGE_VIEW_DVDS, Constants.LABEL_DVDS, dvds);
+        return model;
     }
 
     /**
@@ -192,15 +188,15 @@ public class DVDController {
     @GetMapping("display-dvds-by-name")
     private ModelAndView getDvdsByName(HttpServletRequest request) {
         
-        List<DVD> dvds = new ArrayList<DVD>();
+        ModelAndView model = new ModelAndView(PAGE_VIEW_DVDS);
         try {
-            dvds = dvdService.getDvdsByName(request.
-                                            getParameter(Constants.LABEL_NAME));
+            model.addObject(Constants.LABEL_DVDS, dvdService.
+                     getDvdsByName(request.getParameter(Constants.LABEL_NAME)));
         } catch (DVDException e) {
-            return new ModelAndView(PAGE_HOME,
+            model = new ModelAndView(PAGE_HOME,
                 Constants.LABEL_MESSAGE, e.getMessage());
         }
-        return new ModelAndView(PAGE_VIEW_DVDS, Constants.LABEL_DVDS, dvds);
+        return model;
     }
 
     /**
@@ -320,13 +316,14 @@ public class DVDController {
      */
     @GetMapping("categories")
     private ModelAndView getCategories() {
-        List<Category> categories = new ArrayList<Category>();
+        ModelAndView model = new ModelAndView(PAGE_VIEW_DVDS);
         try {
-            categories = dvdService.getCategories(Constants.ACTIVE);
+            model.addObject(Constants.LABEL_CATEGORIES,
+                dvdService.getCategories(Constants.ACTIVE));
         } catch (DVDException e) {
-            Logger.error(Constants.LOG_RETRIEVE_CATEGORIES_EXCEPTION);
+            model.addObject(Constants.LABEL_MESSAGE, e.getMessage());
         }
-        return new ModelAndView(PAGE_VIEW_DVDS, Constants.LABEL_CATEGORIES, categories);
+        return model;
     }
 
     /**

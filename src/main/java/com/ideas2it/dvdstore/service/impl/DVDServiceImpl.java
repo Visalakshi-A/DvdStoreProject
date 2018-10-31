@@ -4,13 +4,11 @@ import java.sql.Date;
 import java.util.List;
 
 import com.ideas2it.dvdstore.dao.DVDDao;
-import com.ideas2it.dvdstore.dao.impl.DVDDaoImpl;
 import com.ideas2it.dvdstore.exception.DVDException;
 import com.ideas2it.dvdstore.model.Category;
 import com.ideas2it.dvdstore.model.DVD;
 import com.ideas2it.dvdstore.service.CategoryService;
 import com.ideas2it.dvdstore.service.DVDService;
-import com.ideas2it.dvdstore.service.impl.CategoryServiceImpl;
 
 /**
  * Modifies the data from the Controller layer and sends it to the DAO layer
@@ -19,18 +17,24 @@ import com.ideas2it.dvdstore.service.impl.CategoryServiceImpl;
  * @author Visalakshi
  *
  * @see com.ideas2it.dvdstore.dao.DVDDao
- * @see com.ideas2it.dvdstore.dao.impl.DVDDaoImpl
  * @see com.ideas2it.dvdstore.exception.DVDException
  * @see com.ideas2it.dvdstore.model.Category
  * @see com.ideas2it.dvdstore.model.DVD
  * @see com.ideas2it.dvdstore.service.CategoryService
  * @see com.ideas2it.dvdstore.service.DVDService
- * @see com.ideas2it.dvdstore.service.impl.CategoryServiceImpl
  */
 public class DVDServiceImpl implements DVDService {
 
-    private DVDDao dvdDao = new DVDDaoImpl();
-    private CategoryService categoryService = new CategoryServiceImpl();
+    private static DVDDao dvdDao;
+    private static CategoryService categoryService;
+
+    public void setDvdDao(DVDDao dvdDao) {
+        this.dvdDao = dvdDao;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     /** @{inheritDoc} */
     public Boolean checkAlreadyExistsDvd(DVD dvd) throws DVDException {

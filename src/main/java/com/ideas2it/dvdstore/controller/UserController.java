@@ -15,11 +15,12 @@ import com.ideas2it.dvdstore.common.enums.UserRole;
 import com.ideas2it.dvdstore.exception.DVDException;
 import com.ideas2it.dvdstore.logging.Logger;
 import com.ideas2it.dvdstore.model.User;
-import com.ideas2it.dvdstore.service.impl.UserServiceImpl;
 import com.ideas2it.dvdstore.service.UserService;
 
 /**
- * Performs all the login, logout authentication based on roles.
+ * Performs the login, signup, logout operation and redirects
+ * to home page based on roles.
+ * Opens login and signup form.
  *
  * @author Visalakshi
  *
@@ -28,11 +29,12 @@ import com.ideas2it.dvdstore.service.UserService;
  * @see com.ideas2it.dvdstore.exception.DVDException
  * @see com.ideas2it.dvdstore.logging.Logger
  * @see com.ideas2it.dvdstore.model.User
- * @see com.ideas2it.dvdstore.service.impl.UserServiceImpl
  * @see com.ideas2it.dvdstore.service.UserService
  */
 @Controller
 public class UserController {
+
+    private static UserService userService;
 
     private static final String PAGE_ADMIN_HOME = "AdminHome";
 
@@ -46,7 +48,9 @@ public class UserController {
 
     private static final String URL_SIGNUP_FORM = "signup-form";
 
-    private UserService userService = new UserServiceImpl();
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * Redirects to Login page.
@@ -130,7 +134,6 @@ public class UserController {
             HttpServletRequest request) {
 
         HttpSession session = request.getSession(Boolean.TRUE);
-        session.setMaxInactiveInterval(30*60);
         try {
             user = userService.signUp(user);
             if (null == user) {
